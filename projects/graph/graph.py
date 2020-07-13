@@ -56,7 +56,24 @@ class Graph:
         Print each vertex in depth-first order
         beginning from starting_vertex.
         """
+        s = Stack()
+        s.push(starting_vertex)
         
+        visited = set()
+        
+         # Loop until the stack is empy
+        while s.size() > 0:
+            # pop the first item off
+            v = s.pop()
+            
+            if v not in visited:
+                print(v)
+                # add current node to the visited list
+                visited.add(v)
+                
+                # add all next nodes to stack
+                for next_vert in self.get_neighbors(v):
+                    s.push(next_vert)
 
     def dft_recursive(self, starting_vertex):
         """
@@ -65,6 +82,18 @@ class Graph:
 
         This should be done using recursion.
         """
+        print(starting_vertex)
+        
+        if cache is None:
+            cache = set()
+        
+        cache.add(starting_vertex)
+        
+        for next_vert in self.get_neighbors(starting_vertex):
+            if next_vert not in cache:
+                self.dft_recursive(starting_vertex=next_vert, cache = cache)
+            
+       
         
 
     def bfs(self, starting_vertex, destination_vertex):
@@ -73,7 +102,7 @@ class Graph:
         starting_vertex to destination_vertex in
         breath-first order.
         """
-        pass  # TODO
+    
 
     def dfs(self, starting_vertex, destination_vertex):
         """
