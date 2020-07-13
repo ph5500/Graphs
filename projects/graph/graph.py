@@ -13,33 +13,50 @@ class Graph:
         """
         Add a vertex to the graph.
         """
-        pass  # TODO
+        self.vertices[vertex_id] = set() # this is the set of edges from this vert
 
     def add_edge(self, v1, v2):
         """
         Add a directed edge to the graph.
         """
-        pass  # TODO
+        self.vertices[v1].add(v2) # add v2 as a neighor to v1
 
     def get_neighbors(self, vertex_id):
         """
         Get all neighbors (edges) of a vertex.
         """
-        pass  # TODO
+        return self.vertices[vertex_id]
 
     def bft(self, starting_vertex):
         """
         Print each vertex in breadth-first order
         beginning from starting_vertex.
         """
-        pass  # TODO
+        q = Queue()
+        q.enqueue(starting_vertex)
+        
+        visited = set()
+        
+        # keep looping til the queue is empty
+        while q.size() > 0:
+            # dequeue the first item
+            v = q.dequeue()
 
+            # if the current vertex is in the list of visited nodes, dequeue again
+            if v not in visited:
+                # enqueue all next nodes
+                for next_vert in self.get_neighbors(v):
+                    q.enqueue(next_vert)
+                # add the current node to the visited listed
+                visited.add(v)
+        for i in visited:
+            print(i)
     def dft(self, starting_vertex):
         """
         Print each vertex in depth-first order
         beginning from starting_vertex.
         """
-        pass  # TODO
+        
 
     def dft_recursive(self, starting_vertex):
         """
@@ -48,7 +65,7 @@ class Graph:
 
         This should be done using recursion.
         """
-        pass  # TODO
+        
 
     def bfs(self, starting_vertex, destination_vertex):
         """
@@ -64,7 +81,7 @@ class Graph:
         starting_vertex to destination_vertex in
         depth-first order.
         """
-        pass  # TODO
+        
 
     def dfs_recursive(self, starting_vertex, destination_vertex):
         """
@@ -74,7 +91,7 @@ class Graph:
 
         This should be done using recursion.
         """
-        pass  # TODO
+        
 
 if __name__ == '__main__':
     graph = Graph()  # Instantiate your graph
