@@ -31,6 +31,7 @@ traversal_path = []
 
 
 
+
 # TRAVERSAL TEST
 visited_rooms = set()
 player.current_room = world.starting_room

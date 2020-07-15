@@ -1,3 +1,21 @@
+import random
+
+class Queue():
+    def __init__(self):
+        self.queue = []
+        
+    def enqueue(self, value):
+        self.queue.append(value)
+        
+    def dequeue(self):
+        if self.size() > 0:
+            return self.queue.pop(0)
+        else:
+            return None
+        
+    def size(self):
+        return len(self.queue)
+
 class User:
     def __init__(self, name):
         self.name = name
@@ -44,9 +62,20 @@ class SocialGraph:
         self.friendships = {}
         # !!!! IMPLEMENT ME
 
-        # Add users
-
+          # Add users
+        for i in range(num_users):
+            self.add_user(f"User {1}")
         # Create friendships
+        possible_friendships = []
+        for user_id in self.users:
+            for friend_id in range(user_id + 1, self.last_id + 1):
+                possible_friendships.append((user_id, friend_id))
+        # shuffle possible friends
+        random.shuffle(possible_friendships)
+        # add friendships
+        for i in range(num_users * avg_friendships // 2):
+            friendships = possible_friendships[i]
+            self.add_friendship(friendships[0], friendships[1])
 
     def get_all_social_paths(self, user_id):
         """
