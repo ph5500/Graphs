@@ -28,8 +28,22 @@ player = Player(world.starting_room)
 # Fill this out with directions to walk
 # traversal_path = ['n', 'n']
 traversal_path = []
+reverse = {"n": "s", "s": "n", "e": "w", "w": "e"}
 
-
+def generate_path(visited_rooms = []):
+    directions_store = []
+    
+    # get all exit directions from current room
+    for direction in player.current_room.get_exits():
+        
+        # move in a direction
+        player.travel(direction)
+        # print ('moving', direction)
+        
+        # if the room has not been visited:
+        if player.current_room.id not in visited_rooms:
+            
+      
 
 
 # TRAVERSAL TEST
