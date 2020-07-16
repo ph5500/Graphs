@@ -113,7 +113,7 @@ class Graph:
             path = q.dequeue()
             # Grab the last vertex from the PATH
             last_vertex = path[-1]
-            # if that vertex has not been visisted...
+            # if that vertex has not been visited...
             if last_vertex not in visited:
                 # check if it's the TARGET
                     # if SO, RETURN PATH

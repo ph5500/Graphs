@@ -88,8 +88,45 @@ class SocialGraph:
         """
         visited = {}  # Note that this is a dictionary, not a set
         # !!!! IMPLEMENT ME
+        seen = []
+        # create an empty queue
+        queue = Queue()
+        # enqueue A PATH to the user_id
+        queue.enqueue(user_id)
+        # while the queue is not empty...
+        while queue.size() > 0:
+            # dequeue the first item
+            item = queue.dequeue()
+            # if that item has not been seen...
+            if item not in seen:
+                # append item to seen
+                seen.append(item)
+                for j in self.friendships[item]:
+                    queue.enqueue(j)
+                    
+        for s in seen:
+            visited[s] = self.bfs(user_id, s)
+            
         return visited
-
+    
+    def bfs(self, starting_vertex, destination_vertex):
+        if starting_vertex == destination_vertex:
+            return [starting_vertex]
+        visited = []
+        queue = Queue()
+        queue.enqueue([starting_vertex])
+        while queue.size() > 0:
+            path = queue.dequeue()
+            v = path[-1]
+            if v not in visited:
+                for j in self.friendships[v]:
+                    new_path = list(path)
+                    new_path.append(j)
+                    queue.enqueue(new_path)
+                    if j == destination_vertex:
+                        return new_path
+                    
+                visited.append(v)
 
 if __name__ == '__main__':
     sg = SocialGraph()
