@@ -1,3 +1,21 @@
+import random
+
+class Queue():
+    def __init__(self):
+        self.queue = []
+        
+    def enqueue(self, value):
+        self.queue.append(value)
+        
+    def dequeue(self):
+        if self.size() > 0:
+            return self.queue.pop(0)
+        else:
+            return None
+        
+    def size(self):
+        return len(self.queue)
+
 class User:
     def __init__(self, name):
         self.name = name
@@ -44,9 +62,20 @@ class SocialGraph:
         self.friendships = {}
         # !!!! IMPLEMENT ME
 
-        # Add users
-
+          # Add users
+        for i in range(num_users):
+            self.add_user(f"User {1}")
         # Create friendships
+        possible_friendships = []
+        for user_id in self.users:
+            for friend_id in range(user_id + 1, self.last_id + 1):
+                possible_friendships.append((user_id, friend_id))
+        # shuffle possible friends
+        random.shuffle(possible_friendships)
+        # add friendships
+        for i in range(num_users * avg_friendships // 2):
+            friendships = possible_friendships[i]
+            self.add_friendship(friendships[0], friendships[1])
 
     def get_all_social_paths(self, user_id):
         """
@@ -59,8 +88,45 @@ class SocialGraph:
         """
         visited = {}  # Note that this is a dictionary, not a set
         # !!!! IMPLEMENT ME
+        seen = []
+        # create an empty queue
+        queue = Queue()
+        # enqueue A PATH to the user_id
+        queue.enqueue(user_id)
+        # while the queue is not empty...
+        while queue.size() > 0:
+            # dequeue the first item
+            item = queue.dequeue()
+            # if that item has not been seen...
+            if item not in seen:
+                # append item to seen
+                seen.append(item)
+                for j in self.friendships[item]:
+                    queue.enqueue(j)
+                    
+        for s in seen:
+            visited[s] = self.bfs(user_id, s)
+            
         return visited
-
+    
+    def bfs(self, starting_vertex, destination_vertex):
+        if starting_vertex == destination_vertex:
+            return [starting_vertex]
+        visited = []
+        queue = Queue()
+        queue.enqueue([starting_vertex])
+        while queue.size() > 0:
+            path = queue.dequeue()
+            v = path[-1]
+            if v not in visited:
+                for j in self.friendships[v]:
+                    new_path = list(path)
+                    new_path.append(j)
+                    queue.enqueue(new_path)
+                    if j == destination_vertex:
+                        return new_path
+                    
+                visited.append(v)
 
 if __name__ == '__main__':
     sg = SocialGraph()
