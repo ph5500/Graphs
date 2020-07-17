@@ -43,7 +43,27 @@ def generate_path(visited_rooms = []):
         # if the room has not been visited:
         if player.current_room.id not in visited_rooms:
             
-      
+            # add the room to the list of visited rooms
+            visited_rooms.append(player.current_room.id)
+            print(visited_rooms, player.current_room.id)
+            directions_store.append(direction)
+            #print(1st store, directions_store, player.current_room.id)
+            
+            directions_store += generate_path(visited_rooms)
+            # print ('2nd store', directions_store, player.current_room.id)
+            
+            player.travel(reverse[direction])
+            directions_store.append(reverse[direction])
+            # print('3rd store', directions_store, player.current_room)
+
+        # if the room is in the visited list, move the reverse direction of the previous move
+        else:
+            # print('moving back', reverse[direction])
+            player.travel(reverse[direction])
+            
+    return directions_store
+
+traversal_path = generate_path()
 
 
 # TRAVERSAL TEST
